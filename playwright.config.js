@@ -7,7 +7,7 @@ dotenv.config();
 export default defineConfig({
   testDir:      "./tests",
   fullyParallel: true,
-  forbidOnly:   false, // Allow .only() in tests for debugging
+  forbidOnly:   false, 
   retries:      0, // No retries for local development
   workers:      undefined, // Use all available cores
   reporter:     "html",
@@ -22,5 +22,10 @@ export default defineConfig({
 
   projects: [
     { name: "chromium", use: { ...devices["Desktop Chrome"] } },
+    
+    // Auth projects (uncomment to use saved .auth/*.json sessions)
+    // { name: "personal", use: { ...devices["Desktop Chrome"], storageState: ".auth/personal.json" }, testMatch: /.*@personal.*/ },
+    // { name: "business", use: { ...devices["Desktop Chrome"], storageState: ".auth/business.json" }, testMatch: /.*@business.*/ },
+    // { name: "client", use: { ...devices["Desktop Chrome"], storageState: ".auth/client.json" }, testMatch: /.*@client.*/ }
   ],
 });

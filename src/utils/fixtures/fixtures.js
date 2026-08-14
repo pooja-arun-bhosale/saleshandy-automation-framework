@@ -5,6 +5,7 @@ import { OnboardingPage }     from "../../pages/onboarding/OnboardingPage.js";
 import { PersonalOnboarding } from "../../pages/onboarding/PersonalOnboarding.js";
 import { BusinessOnboarding } from "../../pages/onboarding/BusinessOnboarding.js";
 import { ClientOnboarding }   from "../../pages/onboarding/ClientOnboarding.js";
+import { Auth }               from "../auth.js";
 import { users }              from "../testData.js";
 
 // Onboarding handlers keyed by account type
@@ -26,10 +27,13 @@ export const test = base.extend({
         await new LoginPage(page).handleMfa();
       }
 
-        await new OnboardingPage(page).selectAccountType(accountType);
+      // Save auth session
+      Auth.save(accountType, await page.context().storageState());
 
-        const OnboardingClass = onboardingMap[accountType];
-        await new OnboardingClass(page).completeOnboarding(user.onboarding);
+      await new OnboardingPage(page).selectAccountType(accountType);
+
+      const OnboardingClass = onboardingMap[accountType];
+      await new OnboardingClass(page).completeOnboarding(user.onboarding);
     });
   },
 });

@@ -5,11 +5,14 @@ export class SignupPage {
   constructor(page) {
     this.page = page;
     this.firstNameInput = page.locator('input[name="firstName"]');
-    this.lastNameInput  = page.locator('input[name="lastName"]');
-    this.emailInput     = page.locator('input[name="email"]');
-    this.phoneInput     = page.locator('input[name="phone"]');
-    this.passwordInput  = page.locator('input[name="password"]');
-    this.signupButton   = page.getByRole("button", { name: "Sign up", exact: true });
+    this.lastNameInput = page.locator('input[name="lastName"]');
+    this.emailInput = page.locator('input[name="email"]');
+    this.phoneInput = page.locator('input[name="phone"]');
+    this.passwordInput = page.locator('input[name="password"]');
+    this.signupButton = page.getByRole("button", {
+      name: "Sign up",
+      exact: true,
+    });
   }
 
   async open() {
@@ -31,7 +34,9 @@ export class SignupPage {
   // Returns true if "User already exists" error appears, then clicks login link
   async handleExistingUser() {
     try {
-      await this.page.getByText("User already exists").waitFor({ state: "visible", timeout: 5000 });
+      await this.page
+        .getByText("User already exists")
+        .waitFor({ state: "visible", timeout: 5000 });
       await this.page.getByRole("link", { name: "Log in!" }).click();
       return true;
     } catch {

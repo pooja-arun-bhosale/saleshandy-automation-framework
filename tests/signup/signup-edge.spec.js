@@ -75,10 +75,10 @@ test.describe("Signup & Login — Edge Case Scenarios @edge", () => {
         .filter({ hasText: "Should be between 2-25 characters." }),
     ).toBeVisible({ timeout: 5000 });
   });
-  
+
   test("shows error for an unregistered email", async ({ page }) => {
     const login = new LoginPage(page);
-    await login.open();;
+    await login.open();
     await login.emailInput.fill("notexist@test.com");
     await login.passwordInput.fill("Test@1234");
     await login.loginButton.click();

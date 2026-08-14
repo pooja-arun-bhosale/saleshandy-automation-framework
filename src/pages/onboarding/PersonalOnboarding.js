@@ -2,7 +2,6 @@ import { BasePage } from "./BasePage.js";
 import { ONBOARDING_HEADINGS } from "../../utils/constants.js";
 
 export class PersonalOnboarding extends BasePage {
-
   async selectOccupation(value) {
     await this.assertHeading(ONBOARDING_HEADINGS.personal.occupation);
     await this.clickButton(value);

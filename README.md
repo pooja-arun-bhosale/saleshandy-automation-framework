@@ -12,7 +12,6 @@ Comprehensive automated test suite for the Saleshandy application, covering sign
 - [Project Structure](#project-structure)
 - [Test Coverage](#test-coverage)
 - [Features & Integrations](#features--integrations)
-- [CI/CD Integration](#cicd-integration)
 - [Design Patterns](#design-patterns)
 - [Configuration](#configuration)
 - [Troubleshooting](#troubleshooting)
@@ -36,7 +35,6 @@ This automation framework tests the complete user journey for Saleshandy, includ
 - **Design Pattern**: Page Object Model (POM)
 - **Environment Management**: dotenv
 - **Email Integration**: ImapFlow + mailparser for Gmail OTP
-- **CI/CD**: GitHub Actions
 
 ---
 
@@ -140,9 +138,6 @@ npm run report
 
 ```
 saleshandy-qa-automation/
-├── .github/
-│   └── workflows/
-│       └── playwright.yml          # CI/CD pipeline configuration
 ├── src/
 │   ├── pages/
 │   │   ├── login/
@@ -267,27 +262,6 @@ await runOnboarding(accountType);
 
 ---
 
-## CI/CD Integration
-
-### GitHub Actions Workflow
-
-```yaml
-# Automated testing on push/PR
-- Runs on: Ubuntu Latest
-- Node.js: LTS version
-- Browsers: Chromium with dependencies
-- Artifacts: Test reports with 30-day retention
-```
-
-### Pipeline Features
-
-- **Trigger Events**: Push to main/master, Pull Requests
-- **Parallel Execution**: Optimized for CI environment
-- **Artifact Storage**: HTML reports and screenshots
-- **Failure Handling**: Detailed error reporting
-
----
-
 ## Design Patterns
 
 ### Page Object Model (POM)
@@ -341,7 +315,7 @@ export default defineConfig({
   actionTimeout: 30000,   # 30 seconds per action
   navigationTimeout: 60000, // 1 minute navigation
   headless: false,        // Visible browser for debugging
-  retries: 2,            // CI retry logic
+  retries: 0,            // No retries for local development
 });
 ```
 

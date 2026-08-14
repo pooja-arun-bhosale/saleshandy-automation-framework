@@ -13,7 +13,7 @@ export class BasePage {
   }
   async assertHeading(text) {
     await expect(
-      this.page.getByRole("heading", { name: text, exact: true })
+      this.page.getByRole("heading", { name: text, exact: true }),
     ).toBeVisible();
   }
 }

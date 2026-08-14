@@ -9,3 +9,5 @@ node_modules/
 .env
 .auth
 .DS_Store
+# Authentication state files
+.auth/

@@ -1,5 +1,8 @@
 import { BasePage } from "./BasePage.js";
-import { ACCOUNT_TYPE_LABELS,ONBOARDING_HEADINGS } from "../../utils/constants.js";
+import {
+  ACCOUNT_TYPE_LABELS,
+  ONBOARDING_HEADINGS,
+} from "../../utils/constants.js";
 
 // Account-type modal shown after signup and login
 export class OnboardingPage extends BasePage {

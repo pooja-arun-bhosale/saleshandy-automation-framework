@@ -1,0 +1,31 @@
+{
+  "name": "saleshandy-qa-automation",
+  "version": "1.0.0",
+  "description": "Playwright automation for Saleshandy signup and onboarding flows",
+  "scripts": {
+    "test": "playwright test",
+    "test:personal": "playwright test --grep @personal",
+    "test:business": "playwright test --grep @business",
+    "test:client": "playwright test --grep @client",
+    "test:positive": "playwright test --grep @positive",
+    "test:negative": "playwright test --grep @negative",
+    "test:edge": "playwright test --grep @edge",
+    "test:signup": "playwright test tests/signup/",
+    "test:signup-negative": "playwright test tests/signup/signup-negative.spec.js",
+    "test:signup-edge": "playwright test tests/signup/signup-edge.spec.js",
+    "report": "playwright show-report"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "devDependencies": {
+    "@playwright/test": "^1.62.1",
+    "@types/node": "^26.2.0"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "imapflow": "^1.7.0",
+    "mailparser": "^3.9.15"
+  }
+}

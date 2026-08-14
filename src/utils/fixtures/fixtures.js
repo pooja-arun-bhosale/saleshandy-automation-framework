@@ -23,12 +23,13 @@ export const test = base.extend({
 
       if (!isNewUser) {
         await new LoginPage(page).login(user);
+        await new LoginPage(page).handleMfa();
       }
 
-      await new OnboardingPage(page).selectAccountType(accountType);
+        await new OnboardingPage(page).selectAccountType(accountType);
 
-      const OnboardingClass = onboardingMap[accountType];
-      await new OnboardingClass(page).completeOnboarding(user.onboarding);
+        const OnboardingClass = onboardingMap[accountType];
+        await new OnboardingClass(page).completeOnboarding(user.onboarding);
     });
   },
 });

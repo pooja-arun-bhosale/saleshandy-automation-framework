@@ -11,7 +11,8 @@ test.describe("Login @positive", () => {
     await login.open();
     await expect(page).toHaveURL(/login/);
     await login.login(users.personal);
-    await expect(page).toHaveURL("**/sequence", { timeout: 90000 });
+    await login.handleMfa();
+    await expect(page).toHaveURL(/.*\/sequence/, { timeout: 30000 });
   });
 
   test("Should successfully login with valid business account credentials", async ({
@@ -21,7 +22,8 @@ test.describe("Login @positive", () => {
     await login.open();
     await expect(page).toHaveURL(/login/);
     await login.login(users.business);
-    await expect(page).toHaveURL("**/sequence", { timeout: 90000 });
+    await login.handleMfa();
+    await expect(page).toHaveURL(/.*\/sequence/, { timeout: 30000 });
   });
 
   test("Should successfully login with valid client account credentials", async ({

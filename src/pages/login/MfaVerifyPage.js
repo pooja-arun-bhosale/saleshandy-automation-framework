@@ -13,7 +13,6 @@ export class MfaVerifyPage {
   async verifyWithGmail() {
     await this.otpInputs.first().waitFor({
       state: "visible",
-      timeout: 10000,
     });
 
     console.log("Waiting for OTP from Gmail...");
@@ -25,7 +24,6 @@ export class MfaVerifyPage {
       // Fill each OTP digit
       for (let i = 0; i < otp.length; i++) {
         await this.otpInputs.nth(i).fill(otp[i]);
-        await this.page.waitForTimeout(200); // Small delay between inputs
       }
     } catch (error) {
       console.error("MFA verification failed:", error);

@@ -25,6 +25,7 @@ export const test = base.extend({
       if (!isNewUser) {
         await new LoginPage(page).login(user);
         await new LoginPage(page).handleMfa();
+        return;
       }
 
       // Save auth session

@@ -8,7 +8,7 @@ export const ACCOUNT_TYPE_LABELS = {
   client: "Clients",
 };
 export const ONBOARDING_HEADINGS = {
-  accountType: "Let's shape your experience",
+  accountType: "Let’s shape your experience",
   personal: {
     occupation: "Please select your occupation",
     goal: "What is your primary goal for using Saleshandy?",

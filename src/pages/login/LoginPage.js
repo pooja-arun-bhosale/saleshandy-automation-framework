@@ -14,10 +14,8 @@ export class LoginPage {
   // Navigate to login page
   async open() {
     await this.page.goto(LOGIN_URL, {
-      waitUntil: "domcontentloaded",
-      timeout: 30000,
+      waitUntil: "networkidle",
     });
-    await this.emailInput.waitFor({ state: "visible", timeout: 10000 });
   }
 
   // Fills credentials and clicks login
@@ -28,7 +26,7 @@ export class LoginPage {
   }
   async handleMfa() {
     try {
-      await this.page.waitForURL("**/mfa-verify", { timeout: 10000 });
+      await this.page.waitForURL("**/mfa-verify");
       await this.mfaPage.verifyWithGmail();
     } catch (error) {
       console.log("No MFA required or MFA page not found");

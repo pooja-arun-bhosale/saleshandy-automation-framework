@@ -8,10 +8,10 @@ export default defineConfig({
   testDir: "./tests",
   fullyParallel: true,
   forbidOnly: false,
-  retries: 0, // No retries for local development
-  workers: undefined, // Use all available cores
+  retries: 1,
+  workers: 1,
   reporter: "html",
-  timeout: 120000, // 2 minutes for MFA handling
+  timeout: 120000,
 
   use: {
     headless: false,

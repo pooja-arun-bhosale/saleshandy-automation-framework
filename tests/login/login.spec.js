@@ -12,7 +12,7 @@ test.describe("Login @positive", () => {
     await expect(page).toHaveURL(/login/);
     await login.login(users.personal);
     await login.handleMfa();
-    await expect(page).toHaveURL(/.*\/sequence/, { timeout: 30000 });
+    await expect(page).toHaveURL(/.*\/sequence/);
   });
 
   test("Should successfully login with valid business account credentials", async ({
@@ -23,13 +23,12 @@ test.describe("Login @positive", () => {
     await expect(page).toHaveURL(/login/);
     await login.login(users.business);
     await login.handleMfa();
-    await expect(page).toHaveURL(/.*\/sequence/, { timeout: 30000 });
+    await expect(page).toHaveURL(/.*\/sequence/);
   });
 
   test("Should successfully login with valid client account credentials", async ({
     page,
   }) => {
-    test.setTimeout(120000);
     const login = new LoginPage(page);
     await login.open();
     await login.login(users.client);

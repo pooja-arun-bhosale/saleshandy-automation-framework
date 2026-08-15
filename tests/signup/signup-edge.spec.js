@@ -29,7 +29,7 @@ test.describe("Signup & Login — Edge Case Scenarios @edge", () => {
       page
         .locator("label.bs-input-label-suffix")
         .filter({ hasText: "Alphabetic characters only." }),
-    ).toBeVisible({ timeout: 5000 });
+    ).toBeVisible();
   });
 
   test("First name accepts exactly 25 characters", async ({ page }) => {
@@ -73,7 +73,7 @@ test.describe("Signup & Login — Edge Case Scenarios @edge", () => {
       page
         .locator("label.bs-input-label-suffix")
         .filter({ hasText: "Should be between 2-25 characters." }),
-    ).toBeVisible({ timeout: 5000 });
+    ).toBeVisible();
   });
 
   test("shows error for an unregistered email", async ({ page }) => {
@@ -84,6 +84,6 @@ test.describe("Signup & Login — Edge Case Scenarios @edge", () => {
     await login.loginButton.click();
     await expect(
       page.getByText("Invalid username or password", { exact: true }),
-    ).toBeVisible({ timeout: 5000 });
+    ).toBeVisible();
   });
 });

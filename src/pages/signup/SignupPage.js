@@ -34,9 +34,7 @@ export class SignupPage {
   // Returns true if "User already exists" error appears, then clicks login link
   async handleExistingUser() {
     try {
-      await this.page
-        .getByText("User already exists")
-        .waitFor({ state: "visible", timeout: 5000 });
+      await this.page.getByText("User already exists");
       await this.page.getByRole("link", { name: "Log in!" }).click();
       return true;
     } catch {

@@ -11,7 +11,7 @@ test.describe("Form Validation @negative", () => {
     await signup.firstNameInput.blur();
     await expect(
       page.locator("text=/first.*name.*required/i").first(),
-    ).toBeVisible({ timeout: 5000 });
+    ).toBeVisible();
   });
 
   test("invalid email format shows error", async ({ page }) => {
@@ -22,9 +22,7 @@ test.describe("Form Validation @negative", () => {
     const emailError = page.locator(
       ".auth-form-row:has-text('Work email') .bs-input-label-suffix",
     );
-    await expect(emailError).toHaveText("Please enter a valid email address.", {
-      timeout: 5000,
-    });
+    await expect(emailError).toHaveText("Please enter a valid email address.");
   });
 
   test("invalid phone number shows error", async ({ page }) => {
@@ -33,7 +31,7 @@ test.describe("Form Validation @negative", () => {
     await signup.fillForm(negativeUsers.invalidPhone);
     await signup.phoneInput.blur();
     const phoneError = page.locator(".phone-form-input-error");
-    await expect(phoneError).toBeVisible({ timeout: 5000 });
+    await expect(phoneError).toBeVisible();
     await expect(phoneError).not.toBeEmpty();
   });
 
@@ -45,6 +43,6 @@ test.describe("Form Validation @negative", () => {
     await signup.firstNameInput.blur();
     await expect(
       page.locator("text=/first.*name.*required/i").first(),
-    ).toBeVisible({ timeout: 5000 });
+    ).toBeVisible();
   });
 });

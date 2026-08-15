@@ -34,6 +34,6 @@ test.describe("Login @positive", () => {
     await login.open();
     await login.login(users.client);
     await login.handleMfa();
-    await expect(page).toHaveURL(/.*\/sequence/, { timeout: 30000 });
+    await expect(page).toHaveURL(/.*\/sequence/);
   });
 });

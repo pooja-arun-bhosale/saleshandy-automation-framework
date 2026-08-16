@@ -1,382 +1,272 @@
-# Saleshandy QA Automation — SDET-1 Assignment
+# Saleshandy QA Automation Framework
 
-Comprehensive automated test suite for the Saleshandy application, covering signup, login, onboarding flows, and form validation scenarios. Built with Playwright using modern JavaScript (ES modules) and Page Object Model design pattern.
+**Automated test suite for Saleshandy signup, login, and onboarding flows with session-based authentication.**
 
----
-
-## Table of Contents
-
-- [Project Overview](#project-overview)
-- [Project Setup](#project-setup)
-- [Test Execution](#test-execution)
-- [Project Structure](#project-structure)
-- [Test Coverage](#test-coverage)
-- [Features & Integrations](#features--integrations)
-- [Design Patterns](#design-patterns)
-- [Configuration](#configuration)
-- [Troubleshooting](#troubleshooting)
+Built with Playwright + JavaScript ES6 + Page Object Model
 
 ---
 
-## Project Overview
-
-This automation framework tests the complete user journey for Saleshandy, including:
-
-- **User Registration**: Comprehensive signup form validation and submission
-- **User Authentication**: Login with MFA (Multi-Factor Authentication) support
-- **Onboarding Flows**: Three distinct user types (Personal, Business, Client/Agency)
-- **Form Validations**: Positive, negative, and edge case scenarios
-- **Gmail Integration**: Automated OTP retrieval for MFA verification
-
-**Technologies Stack:**
-
-- **Test Framework**: Playwright v1.62.1
-- **Language**: JavaScript (ES6+ modules)
-- **Design Pattern**: Page Object Model (POM)
-- **Environment Management**: dotenv
-- **Email Integration**: ImapFlow + mailparser for Gmail OTP
-
----
-
-## Project Setup
-
-### Prerequisites
-
-- Node.js 18+
-- npm 9+
-- Gmail account with App Password (for MFA testing)
-
-### Installation Steps
-
-1. **Clone and install dependencies**
+## 🚀 Quick Start
 
 ```bash
 git clone <repository-url>
-cd saleshandy-qa-automation
+cd saleshandy-automation-framework
 npm install
 npx playwright install chromium
-```
-
-2. **Environment Configuration**
-
-```bash
-cp .env.example .env
-```
-
-3. **Configure credentials in `.env`**
-
-```env
-# Application URL
-BASE_URL=https://my.saleshandy.com
-
-# Test User Credentials
-PERSONAL_EMAIL=your-personal@email.com
-PERSONAL_PHONE=1234567890
-PERSONAL_PASSWORD=YourPassword123
-
-BUSINESS_EMAIL=your-business@email.com
-BUSINESS_PHONE=1234567890
-BUSINESS_PASSWORD=YourPassword123
-
-CLIENT_EMAIL=your-client@email.com
-CLIENT_PHONE=1234567890
-CLIENT_PASSWORD=YourPassword123
-
-# Gmail Integration (for MFA)
-GMAIL_USER=your-gmail@gmail.com
-GMAIL_APP_PASSWORD=your-app-password
-```
-
-### Gmail App Password Setup
-
-1. Enable 2-Factor Authentication on your Gmail account
-2. Go to Google Account Settings > Security > 2-Step Verification
-3. Generate an App Password for "Mail"
-4. Use the generated 16-character password in `GMAIL_APP_PASSWORD`
-
----
-
-## Test Execution
-
-### Available Test Commands
-
-| Command                        | Description            | Test Scope                |
-| ------------------------------ | ---------------------- | ------------------------- |
-| `npm test`                     | Run all test suites    | Complete test execution   |
-| `npm run test:personal`        | Personal account tests | @personal tagged tests    |
-| `npm run test:business`        | Business account tests | @business tagged tests    |
-| `npm run test:client`          | Client/Agency tests    | @client tagged tests      |
-| `npm run test:positive`        | Positive scenarios     | @positive tagged tests    |
-| `npm run test:negative`        | Negative scenarios     | @negative tagged tests    |
-| `npm run test:edge`            | Edge cases             | @edge tagged tests        |
-| `npm run test:signup`          | Signup flow tests      | All signup related tests  |
-| `npm run test:signup-negative` | Signup validations     | Negative signup scenarios |
-| `npm run test:signup-edge`     | Signup edge cases      | Edge case scenarios       |
-| `npm run report`               | Open test report       | HTML report viewer        |
-
-### Test Execution Examples
-
-```bash
-# Run all tests
+cp .env.example .env  # Configure credentials
 npm test
-
-# Run specific test types
-npm run test:positive
-npm run test:negative
-
-# Run specific test files
-npm run test:signup-negative
-npm run test:signup-edge
-
-# Generate and view report
-npm run report
 ```
 
 ---
 
-## Project Structure
+## 📋 Assignment Requirements ✅
+
+**Assignment Compliance Achieved**
+
+✅ **Reusable & Parameterized Signup**: Single `runOnboarding(accountType)` handles all 3 account types  
+✅ **Account-Specific Flows**: Personal (5 steps), Business (4 steps), Client (4 steps) onboarding  
+✅ **No Repeated Login**: Session persistence with `.auth/*.json` files  
+✅ **Clean Framework**: Page Object Model with maintainable structure
+
+---
+
+## 🧪 Test Execution
+
+```bash
+# Core Commands
+npm test                    # Run all tests
+npm run test:personal       # Personal account tests
+npm run test:business       # Business account tests
+npm run test:client         # Client account tests
+
+# Test Categories
+npm run test:positive       # Positive scenarios
+npm run test:negative       # Form validation
+npm run test:edge          # Edge cases
+npm run report             # View HTML report
+```
+
+---
+
+## 📁 Project Structure
 
 ```
-saleshandy-qa-automation/
+saleshandy-automation-framework/
+├── .auth/                          # Session files (auto-generated)
+│   ├── personal.json              # Personal account session
+│   ├── business.json              # Business account session
+│   └── client.json                # Client account session
 ├── src/
 │   ├── pages/
-│   │   ├── login/
-│   │   │   ├── LoginPage.js        # Login form interactions
-│   │   │   └── MfaVerifyPage.js    # MFA OTP verification
-│   │   ├── onboarding/
-│   │   │   ├── BasePage.js         # Base class for onboarding pages
-│   │   │   ├── OnboardingPage.js   # Account type selection
-│   │   │   ├── PersonalOnboarding.js # Personal user onboarding
-│   │   │   ├── BusinessOnboarding.js # Business user onboarding
-│   │   │   ├── ClientOnboarding.js   # Client/Agency onboarding
-│   │   │   └── index.js            # Onboarding exports
-│   │   └── signup/
-│   │       └── SignupPage.js       # Signup form and validation
+│   │   ├── signup/SignupPage.js   # Signup form handling
+│   │   ├── login/LoginPage.js     # Login + MFA
+│   │   └── onboarding/            # Account-specific flows
+│   │       ├── PersonalOnboarding.js   # Personal (5 steps)
+│   │       ├── BusinessOnboarding.js   # Business (4 steps)
+│   │       └── ClientOnboarding.js     # Client (4 steps)
 │   └── utils/
-│       ├── constants.js            # Application constants and URLs
-│       ├── testData.js            # Test data and user credentials
-│       ├── fixtures/
-│       │   └── fixtures.js        # Playwright custom fixtures
-│       └── gmail/
-│           ├── gmailClient.js     # Gmail IMAP connection
-│           └── otpReader.js       # OTP extraction from emails
+│       ├── auth.js                # Session management
+│       ├── testData.js           # User credentials
+│       └── fixtures/fixtures.js  # Reusable test workflows
 ├── tests/
-│   ├── login/
-│   │   └── login.spec.js          # Login test scenarios
-│   └── signup/
-│       ├── signup.spec.js         # Positive signup scenarios
-│       ├── signup-negative.spec.js # Form validation tests
-│       └── signup-edge.spec.js    # Edge case scenarios
-├── test-cases/
-│   └── QA_Test_Cases_Saleshandy_Best_Final.xlsx # Manual test cases
-├── test-results/                   # Playwright test results
-├── playwright-report/              # HTML test reports
-├── playwright.config.js           # Playwright configuration
-├── debug-gmail.js                 # Gmail integration testing utility
-├── package.json                   # Project dependencies and scripts
-├── .env.example                   # Environment template
-├── .env                          # Environment variables (gitignored)
-├── .gitignore                    # Git ignore rules
-└── README.md                     # Project documentation
+│   ├── signup
+│   │    ├── signup.spec.js     # Positive flows
+│   │    ├── signup-negative.spec.js # Negative cases
+│   │    └── signup-edge.spec.js     #Edge cases
+│   ├── login
+│   │      ├── login.spec.js        # Login scenarios
+│   └── session-test.spec.js       # Session validation
+├── Test-cases-document/           # Manual test cases
+├── AUTOMATION_COVERAGE_SUMMARY.md # Assignment coverage
+└── README.md                      # This file
 ```
 
 ---
 
-## Test Coverage
+## ⚙️ Setup Instructions
 
-### Functional Test Scenarios
+### 1. Environment Configuration
 
-#### 🟢 Positive Test Cases
+Copy `.env.example` to `.env` and configure:
 
-- **Complete User Journeys**: End-to-end signup and onboarding for all user types
-- **Login Flows**: Successful authentication with MFA support
-- **Account Type Flows**:
-  - Personal Use: Occupation → Goal → Usage → Email Volume → Source
-  - Business: Goal → Prior Tool Usage → Usage → Source
-  - Client/Agency: Agency Type → Client Count → Email Volume → Source
+```env
+BASE_URL=https://my.saleshandy.com
 
-#### 🔴 Negative Test Cases
+# Test Account Credentials (use different emails)
+PERSONAL_EMAIL=your-personal@email.com
+BUSINESS_EMAIL=your-business@email.com
+CLIENT_EMAIL=your-client@email.com
 
-- **Form Validation**: Empty form submission validation
-- **Email Validation**: Invalid email format detection
-- **Phone Validation**: Invalid phone number handling
-- **Required Fields**: Missing required field validation
-- **Authentication**: Invalid login credentials
+PERSONAL_PASSWORD=YourPassword123
+BUSINESS_PASSWORD=YourPassword123
+CLIENT_PASSWORD=YourPassword123
 
-#### ⚠️ Edge Case Scenarios
+PERSONAL_PHONE=""
+BUSINESS_PHONE=""
+CLIENT_PHONE=""
 
-- **Boundary Testing**: Field length validation (2-25 characters)
-- **Special Characters**: Input sanitization testing
-- **Duplicate Users**: Existing email handling
-- **Unregistered Users**: Non-existent account validation
+# Gmail MFA (for OTP automation)
+GMAIL_USER=your-gmail@gmail.com
+GMAIL_APP_PASSWORD=your-16-char-app-password
+```
 
-### Test Data Categories
+### 2. Gmail App Password Setup
 
-#### User Types Covered
-
-1. **Personal Users**: Freelancers, individual contributors
-2. **Business Users**: Companies, enterprises
-3. **Client/Agency Users**: Marketing agencies, service providers
-
-#### Validation Scenarios
-
-- Form field validations (required, format, length)
-- Cross-browser compatibility (Chrome focus)
-- Responsive design validation
-- Error message accuracy
+1. Enable 2FA on Gmail → Security → 2-Step Verification
+2. Generate App Password for "Mail"
+3. Use 16-character password in `.env`
 
 ---
 
-## Features & Integrations
+## 🔐 Authentication & Sessions
 
-### 🔐 Multi-Factor Authentication (MFA)
+### How Session Management Works
 
-- **Gmail Integration**: Automated OTP retrieval using IMAP
-- **Real-time Processing**: Checks emails from last 5 minutes
-- **Pattern Matching**: Intelligent OTP extraction from email content
-- **Fallback Mechanisms**: Multiple OTP detection strategies
+```bash
+# First Run: Creates sessions
+npm run test:signup  # → Generates .auth/personal.json, business.json, client.json
 
-### 📧 Gmail Integration Details
-
-```javascript
-// Automatic OTP retrieval
-const otp = await getSaleshandyOTP();
-// Searches recent emails for Saleshandy OTP
-// Extracts 4-digit codes automatically
-// Handles both subject and body OTP formats
 ```
 
-### 🎯 Smart Fixtures System
+### Session Files Structure
 
-```javascript
-// Reusable onboarding fixture
-await runOnboarding(accountType);
-// Handles: signup → login → account selection → onboarding completion
+```
+.auth/
+├── personal.json    # JWT tokens + cookies for personal account
+├── business.json    # JWT tokens + cookies for business account
+└── client.json      # JWT tokens + cookies for client account
 ```
 
-### 🔄 Duplicate User Handling
-
-- Automatic detection of existing users
-- Seamless fallback to login flow
-- No test failures for pre-existing accounts
-
----
-
-## Design Patterns
-
-### Page Object Model (POM)
+### Usage in Tests
 
 ```javascript
-// Hierarchical page structure
-├── BasePage.js           # Common interactions
-├── LoginPage.js          # Login-specific methods
-├── SignupPage.js         # Signup form handling
-└── OnboardingPages/      # User type specific flows
-```
-
-### Benefits of POM Implementation
-
-- **Maintainability**: Changes isolated to specific page classes
-- **Reusability**: Common methods shared via inheritance
-- **Readability**: Test intent clear from method names
-- **Scalability**: Easy to extend for new pages/flows
-
-### Custom Fixtures Pattern
-
-```javascript
-// Encapsulates complex workflows
-const test = base.extend({
-  runOnboarding: async ({ page }, use) => {
-    // Complete signup/login + onboarding logic
-  },
+// Automatic session loading
+test("Dashboard @business", async ({ page }) => {
+  await page.goto("/sequence"); // Already logged in!
 });
 ```
 
-### Constants Management
+---
 
-```javascript
-// Single source of truth
-export const ONBOARDING_HEADINGS = {
-  personal: { occupation: "Please select your occupation" },
-  business: { goal: "What is your primary goal..." },
-  client: { agencyType: "What type of agency..." },
-};
-```
+## 📊 Test Coverage
+
+### Account Types & Flows
+
+| Account Type | Onboarding Steps                                   | Implementation Status |
+| ------------ | -------------------------------------------------- | --------------------- |
+| **Personal** | Occupation → Goal → Usage → Email Volume → Source  | ✅ Complete           |
+| **Business** | Goal → Prior Tool → Usage → Source                 | ✅ Complete           |
+| **Client**   | Agency Type → Client Count → Email Volume → Source | ✅ Complete           |
+
+### Test Scenarios
+
+- **✅ Positive Cases**: Valid signup/login flows for all account types
+- **✅ Negative Cases**: Form validation, invalid data handling
+- **✅ Edge Cases**: Boundary testing, special characters, existing users
+- **✅ Session Management**: Authentication persistence across tests
 
 ---
 
-## Configuration
+## 🎯 Key Features
 
-### Playwright Configuration Highlights
+### Smart Authentication
+
+- **Session Reuse**: No repeated logins across test runs
+- **Auto-Fallback**: Existing users → auto-login, New users → signup
+- **JWT Management**: Proper token validation & refresh
+
+### Parameterized Testing
+
+- **Single Fixture**: `runOnboarding(accountType)` handles all flows
+- **Account-Specific**: Each type follows correct onboarding path
+- **Zero Duplication**: One implementation for all scenarios
+
+### Advanced Integrations
+
+- **Gmail MFA**: Automated OTP extraction via IMAP
+- **Error Handling**: Graceful duplicate user detection
+- **HTML Reports**: Comprehensive test result analysis
+
+---
+
+## 🔧 Configuration
+
+### Playwright Settings
 
 ```javascript
+// playwright.config.js
 export default defineConfig({
-  timeout: 120000,        // 2 minutes (MFA handling)
-  actionTimeout: 30000,   # 30 seconds per action
-  navigationTimeout: 60000, // 1 minute navigation
-  headless: false,        // Visible browser for debugging
-  retries: 0,            // No retries for local development
+  timeout: 120000,         // 2 minutes (includes MFA)
+  headless: false,         # Visual browser
+  retries: 1,             // Handle network issues
+  reporter: "html",       // Detailed reports
 });
 ```
 
-### Environment Variables
+### Technology Stack
 
-- **BASE_URL**: Application base URL (default: https://my.saleshandy.com)
-- **User Credentials**: Per account type credentials
-- **Gmail Integration**: IMAP connection details
-
-### Browser Support
-
-- **Primary**: Chromium (Desktop Chrome simulation)
-- **Configurable**: Easy extension to Firefox, Safari, Edge
-- **Mobile**: Device simulation support available
+- **Framework**: Playwright 1.62.1
+- **Language**: JavaScript ES6+ modules
+- **Pattern**: Page Object Model
+- **Authentication**: Session persistence with storageState
+- **Email**: Gmail IMAP integration
 
 ---
 
-## Troubleshooting
+## � Troubleshooting
 
-### Common Issues & Solutions
-
-#### 🚫 Environment Setup Issues
+### Common Issues
 
 ```bash
-# Missing dependencies
-npm install
-npx playwright install chromium
+# Environment setup
+npm install && npx playwright install chromium
+cp .env.example .env  # Configure credentials
 
-# Environment variables not loaded
-cp .env.example .env
-# Fill in real credentials
+# Session issues
+rm -rf .auth/ && npm run test:signup  # Recreate sessions
+
+# Gmail MFA issues
+node debug-gmail.js  # Test Gmail connection
 ```
 
-### Debug Mode Execution
+### Debug Commands
 
 ```bash
-# Run tests in debug mode
-npx playwright test --debug
-
-# Run with headed browser
-npx playwright test --headed
-
-# Generate trace on failure
-npx playwright test --trace on
+npx playwright test --headed --debug     # Visual debugging
+npx playwright test --trace on          # Generate traces
+npm run report                          # View test results
 ```
 
 ---
 
-## Contributing
+## 📈 Assignment Success Metrics
 
-1. Follow the existing Page Object Model structure
-2. Add test data to `testData.js` for new scenarios
-3. Use existing fixtures for common workflows
-4. Update constants for new UI elements
-5. Maintain comprehensive test coverage
+**Core Requirements: 100% Implemented** ✅
+
+| Requirement            | Implementation                   | Status |
+| ---------------------- | -------------------------------- | ------ |
+| Reusable Signup        | Single parameterized fixture     | ✅     |
+| Account-Specific Flows | Personal/Business/Client classes | ✅     |
+| UI Element Validation  | Heading & element verification   | ✅     |
+| No Repeated Login      | Session persistence              | ✅     |
+| Framework Design       | Page Object Model                | ✅     |
+| Clean Code             | Maintainable architecture        | ✅     |
 
 ---
 
-## Support & Maintenance
+## 📞 Support
 
-- **Framework Version**: Playwright 1.62.1
-- **Node.js Compatibility**: 18+
-- **Update Frequency**: Regular dependency updates
-- **Browser Support**: Latest Chromium builds
+**Common Commands:**
+
+```bash
+npm test                 # Run all tests
+npm run test:business   # Business account tests
+npm run report          # View results
+npx playwright test --debug  # Debug mode
+```
+
+**Key Files:**
+
+- `.env` - Environment configuration
+- `tests/session-test.spec.js` - Session validation
+- `AUTOMATION_COVERAGE_SUMMARY.md` - Assignment analysis

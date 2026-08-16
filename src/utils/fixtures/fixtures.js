@@ -20,21 +20,18 @@ export const test = base.extend({
   runOnboarding: async ({ page }, use) => {
     await use(async (accountType) => {
       const user = users[accountType];
-      const isNewUser = await new SignupPage(page).signup(user, accountType);
-
+      const isNewUser = await new SignupPage(page).signup(user);
       if (!isNewUser) {
         await new LoginPage(page).login(user);
         await new LoginPage(page).handleMfa();
         return;
       }
-
-      // Save auth session
-      Auth.save(accountType, await page.context().storageState());
-
       await new OnboardingPage(page).selectAccountType(accountType);
-
       const OnboardingClass = onboardingMap[accountType];
       await new OnboardingClass(page).completeOnboarding(user.onboarding);
+
+      // Save auth session AFTER user is fully authenticated
+      Auth.save(accountType, await page.context().storageState());
     });
   },
 });
